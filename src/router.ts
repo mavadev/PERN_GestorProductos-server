@@ -1,9 +1,11 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 import { validateErrors } from './middleware';
-import { createProduct } from './handlers/product';
+import { getProducts, createProduct } from './handlers/product';
 
 const router = Router();
+
+router.get('/', getProducts);
 
 router.post(
 	'/',
