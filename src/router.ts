@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 import { validateErrors } from './middleware';
-import { getProductById, getProducts, createProduct } from './handlers/product';
+import { getProductById, getProducts, createProduct, updateProduct } from './handlers/product';
 
 const router = Router();
 
@@ -14,15 +14,29 @@ router.get('/', getProducts);
 // Crear Producto
 router.post(
 	'/',
-	body('name').notEmpty().withMessage('El nombre del Producto no puede ir vacío'),
+	body('name').notEmpty().withMessage('Debes ingresar el nombre del producto'),
 	body('price')
 		.notEmpty()
-		.withMessage('Debe indicar un precio para el producto')
 		.isNumeric()
 		.custom(value => value > 0)
-		.withMessage('Valor de precio no válido'),
+		.withMessage('Debes ingresar un precio válido'),
 	validateErrors,
 	createProduct
+);
+
+// Actualizar Producto
+router.put(
+	'/:id',
+	param('id').notEmpty().withMessage('Debes enviar el id del producto a actualizar'),
+	body('name').notEmpty().withMessage('Debes ingresar el nombre del producto'),
+	body('price')
+		.notEmpty()
+		.isNumeric()
+		.custom(value => value > 0)
+		.withMessage('Debes indicar un precio válido'),
+	body('availability').isBoolean().withMessage('Debes indicar la disponibilidad'),
+	validateErrors,
+	updateProduct
 );
 
 export default router;
