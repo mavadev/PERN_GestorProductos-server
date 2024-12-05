@@ -1,9 +1,11 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import colors from 'colors';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const database = new Sequelize(process.env.DATABASE_URL);
+const database = new Sequelize(process.env.DATABASE_URL!, {
+	models: [__dirname + '/../models/**/*.ts'],
+});
 
 export async function connectDatabase() {
 	try {
