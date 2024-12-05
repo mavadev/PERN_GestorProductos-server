@@ -1,6 +1,7 @@
-const PORT = 4000;
+import colors from 'colors';
 import server from './server';
 
+const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
-	console.log(`-> Server corriendo en http://localhost:${PORT}`);
+	console.log(colors.cyan.bold(`Server corriendo en http://localhost:${PORT}`));
 });

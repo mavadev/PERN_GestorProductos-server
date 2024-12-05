@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import colors from 'colors';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -8,9 +9,9 @@ export async function connectDatabase() {
 	try {
 		await database.authenticate();
 		database.sync();
-		console.log('Database conectado correctamente');
+		console.log(colors.blue.bold('Conexión existosa a la DB'));
 	} catch (error) {
-		console.log(error);
+		console.log(colors.red.bold('Hubo un error al conectarse a la DB'));
 	}
 }
 
