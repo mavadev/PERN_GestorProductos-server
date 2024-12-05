@@ -8,5 +8,8 @@ server.use(express.json());
 
 // Routing
 server.use('/api/products', router);
+server.use('/api', (req, res) => {
+	res.json({ msg: 'Desde API' });
+});
 
 export default server;
