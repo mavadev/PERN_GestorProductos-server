@@ -1,7 +1,14 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 import { validateErrors } from './middleware';
-import { getProductById, getProducts, createProduct, updateProduct, updateAvailability } from './handlers/product';
+import {
+	getProductById,
+	getProducts,
+	createProduct,
+	updateProduct,
+	updateAvailability,
+	deleteProduct,
+} from './handlers/product';
 
 const router = Router();
 
@@ -41,5 +48,8 @@ router.put(
 
 // Modificar Producto (Parcialmente)
 router.patch('/:id', param('id').notEmpty().withMessage('ID no válido'), validateErrors, updateAvailability);
+
+// Eliminar Producto
+router.delete('/:id', param('id').notEmpty().withMessage('ID no válido'), validateErrors, deleteProduct);
 
 export default router;
