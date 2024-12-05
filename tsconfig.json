@@ -8,8 +8,13 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "declaration": true,
+    // Creacion de modelos
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    // Soporte para ingreso de datos a DB
+    "target": "ESNext",
+    "moduleResolution": "nodenext",
+    "module": "NodeNext"
   },
   "include": ["src/**/*.ts"]
 }
