@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 import { validateErrors } from './middleware';
-import { getProductById, getProducts, createProduct, updateProduct } from './handlers/product';
+import { getProductById, getProducts, createProduct, updateProduct, updateAvailability } from './handlers/product';
 
 const router = Router();
 
@@ -27,7 +27,7 @@ router.post(
 // Actualizar Producto
 router.put(
 	'/:id',
-	param('id').notEmpty().withMessage('Debes enviar el id del producto a actualizar'),
+	param('id').notEmpty().withMessage('ID no válido'),
 	body('name').notEmpty().withMessage('Debes ingresar el nombre del producto'),
 	body('price')
 		.notEmpty()
@@ -38,5 +38,8 @@ router.put(
 	validateErrors,
 	updateProduct
 );
+
+// Modificar Producto (Parcialmente)
+router.patch('/:id', param('id').notEmpty().withMessage('ID no válido'), validateErrors, updateAvailability);
 
 export default router;
