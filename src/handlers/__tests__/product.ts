@@ -18,8 +18,8 @@ describe('POST /api/products', () => {
 	it('debe crear un nuevo producto', async () => {
 		// Organizar
 		const newProduct = {
-			name: 'Producto prueba',
-			price: 100.3,
+			name: 'Producto - Testing',
+			price: 333.3,
 		};
 
 		// Actuar
