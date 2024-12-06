@@ -97,3 +97,15 @@ export const deleteProduct = async (req: Request, res: Response) => {
 		console.error(error);
 	}
 };
+
+export const deleteProducts = async (req: Request, res: Response) => {
+	try {
+		await Product.destroy({
+			truncate: true,
+			restartIdentity: true,
+		});
+		res.json({ data: `Productos eliminados` });
+	} catch (error) {
+		console.error(error);
+	}
+};

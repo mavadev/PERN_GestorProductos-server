@@ -8,6 +8,7 @@ import {
 	updateProduct,
 	updateAvailability,
 	deleteProduct,
+	deleteProducts,
 } from './handlers/product';
 
 const router = Router();
@@ -51,5 +52,8 @@ router.patch('/:id', param('id').notEmpty().withMessage('ID no válido'), valida
 
 // Eliminar Producto
 router.delete('/:id', param('id').notEmpty().withMessage('ID no válido'), validateErrors, deleteProduct);
+
+// Eliminar Productos
+router.delete('/', deleteProducts);
 
 export default router;
