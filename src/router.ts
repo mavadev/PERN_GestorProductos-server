@@ -14,7 +14,15 @@ import {
 const router = Router();
 
 // Obtener producto por ID
-router.get('/:id', param('id').isInt().withMessage('ID no válido'), validateErrors, getProductById);
+router.get(
+	'/:id',
+	param('id')
+		.isInt()
+		.custom(id => id > 0)
+		.withMessage('ID no válido'),
+	validateErrors,
+	getProductById
+);
 
 // Obtener todos los productos
 router.get('/', getProducts);
@@ -35,7 +43,10 @@ router.post(
 // Actualizar Producto
 router.put(
 	'/:id',
-	param('id').notEmpty().withMessage('ID no válido'),
+	param('id')
+		.isInt()
+		.custom(id => id > 0)
+		.withMessage('ID no válido'),
 	body('name').notEmpty().withMessage('Debes ingresar el nombre del producto'),
 	body('price')
 		.notEmpty()
@@ -48,10 +59,26 @@ router.put(
 );
 
 // Modificar Producto (Parcialmente)
-router.patch('/:id', param('id').notEmpty().withMessage('ID no válido'), validateErrors, updateAvailability);
+router.patch(
+	'/:id',
+	param('id')
+		.isInt()
+		.custom(id => id > 0)
+		.withMessage('ID no válido'),
+	validateErrors,
+	updateAvailability
+);
 
 // Eliminar Producto
-router.delete('/:id', param('id').notEmpty().withMessage('ID no válido'), validateErrors, deleteProduct);
+router.delete(
+	'/:id',
+	param('id')
+		.isInt()
+		.custom(id => id > 0)
+		.withMessage('ID no válido'),
+	validateErrors,
+	deleteProduct
+);
 
 // Eliminar Productos
 router.delete('/', deleteProducts);
