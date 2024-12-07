@@ -6,7 +6,7 @@ beforeAll(async () => {
 });
 
 describe('POST /api/products', () => {
-	it('debe mostrar errores si no se envia el producto', async () => {
+	it('debe mostrar errores si no se envía el producto', async () => {
 		// Actuar
 		const response = await request(server).post('/api/products').send({});
 
@@ -79,7 +79,6 @@ describe('GET BY ID /api/products', () => {
 	it('debe validar si no se encuentra el producto', async () => {
 		// Actuar
 		const response = await request(server).get('/api/products/5');
-
 		// Afirmar
 		expect(response.status).toEqual(404);
 		expect(response.body).toHaveProperty('error');
@@ -89,7 +88,7 @@ describe('GET BY ID /api/products', () => {
 		expect(response.body).not.toHaveProperty('data');
 	});
 
-	it('debe validar si se envia un ID no válido', async () => {
+	it('debe validar si se envía un ID no válido', async () => {
 		// Actuar
 		const response = await request(server).get('/api/products/noValido');
 
@@ -100,5 +99,54 @@ describe('GET BY ID /api/products', () => {
 
 		expect(response.status).not.toEqual(200);
 		expect(response.body).not.toHaveProperty('data');
+	});
+});
+
+describe('PUT /api/products', () => {
+	// Preparar
+	const updatedData = {
+		name: 'Producto Actualizado - Testing',
+		price: 1000,
+		availability: false,
+	};
+
+	it('debe validar si no se envía el producto a actualizar', async () => {
+		// Actuar
+		const response = await request(server).put('/api/products/1').send({});
+
+		// Afirmar
+		expect(response.status).toEqual(400);
+		expect(response.body).toHaveProperty('errors');
+		expect(response.body.errors.length).toBeGreaterThan(0);
+
+		expect(response.status).not.toEqual(200);
+		expect(response.body).not.toHaveProperty('data');
+	});
+
+	it('debe validar si no existe el producto con el ID', async () => {
+		// Actuar
+		const response = await request(server).put('/api/products/5').send(updatedData);
+
+		// Afirmar
+		expect(response.status).toEqual(404);
+		expect(response.body).toHaveProperty('error');
+		expect(response.body.error).toBeTruthy();
+
+		expect(response.status).not.toEqual(200);
+		expect(response.body).not.toHaveProperty('data');
+	});
+
+	it('debe actualizar la información de un producto', async () => {
+		// Actuar
+		const response = await request(server).put('/api/products/1').send(updatedData);
+
+		// Afirmar
+		expect(response.status).toEqual(200);
+		expect(response.body).toHaveProperty('data');
+		expect(response.body.data).toMatchObject(updatedData);
+
+		expect(response.status).not.toEqual(404);
+		expect(response.body).not.toHaveProperty('error');
+		expect(response.body.data).not.toBeNull();
 	});
 });
