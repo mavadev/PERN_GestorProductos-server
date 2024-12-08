@@ -308,6 +308,26 @@ router.delete(
 	deleteProduct
 );
 
+/**
+ * @swagger
+ * /api/products/:
+ *  delete:
+ *   summary: Delete products
+ *   tags:
+ *    - Products
+ *   description: Return the message with count of the deleted products
+ *   responses:
+ *    200:
+ *     description: Products Removed
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         data:
+ *          type: string
+ *          example: Productos eliminados
+ */
 router.delete('/', deleteProducts);
 
 export default router;
