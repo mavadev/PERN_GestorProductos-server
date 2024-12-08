@@ -151,6 +151,50 @@ describe('PUT /api/products/:id', () => {
 	});
 });
 
+describe('PATCH AVAILABILITY /api/products/:id', () => {
+	it('debe actualizar la disponibilidad de un producto existente', async () => {
+		// Actuar
+		const product = await request(server).get('/api/products/1');
+		const updated = await request(server).patch('/api/products/1');
+
+		// Afirmar
+		expect(updated.status).toEqual(200);
+		expect(updated.body).toHaveProperty('data');
+		expect(updated.body.data).toBeTruthy();
+		expect(updated.body.data.availability).toEqual(!product.body.data.availability);
+
+		expect(updated.status).not.toEqual(404);
+		expect(updated.body).not.toHaveProperty('error');
+		expect(updated.body.data).not.toBeNull();
+	});
+
+	it('debe validar que se envíe un id válido', async () => {
+		// Actuar
+		const response = await request(server).patch('/api/products/not-valid-url');
+
+		// Afirmar
+		expect(response.status).toEqual(400);
+		expect(response.body).toHaveProperty('errors');
+		expect(response.body.errors.length).toBeGreaterThan(0);
+
+		expect(response.status).not.toEqual(200);
+		expect(response.body).not.toHaveProperty('data');
+	});
+
+	it('debe validar si no se encuentra el producto a actualizar', async () => {
+		// Actuar
+		const response = await request(server).patch('/api/products/5');
+
+		// Afirmar
+		expect(response.status).toEqual(404);
+		expect(response.body).toHaveProperty('error');
+		expect(response.body.error).toBeTruthy();
+
+		expect(response.status).not.toEqual(400);
+		expect(response.body).not.toHaveProperty('data');
+	});
+});
+
 describe('DELETE BY ID /api/products/:id', () => {
 	it('debe validar que se envíe un id válido', async () => {
 		// Actuar
