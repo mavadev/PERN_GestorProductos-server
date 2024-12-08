@@ -40,6 +40,14 @@ const router = Router();
  *    properties:
  *     data:
  *      $ref: '#/components/schemas/Product'
+ *   NotFound:
+ *    type: object
+ *    properties:
+ *     error:
+ *      type: string
+ *      description: Error Message
+ *      example: Producto no encontrado
+
  */
 
 /**
@@ -90,16 +98,11 @@ router.get('/', getProducts);
  *    400:
  *     description: Bad Request - Invalid ID
  *    404:
- *     description: Not Found
+ *     description: Not Found Product
  *     content:
  *      application/json:
  *       schema:
- *        type: object
- *        properties:
- *         error:
- *          type: string
- *          description: Error Message
- *          example: Producto no encontrado
+ *        $ref: '#/components/schemas/NotFound'
  */
 router.get(
 	'/:id',
@@ -195,16 +198,11 @@ router.post(
  *    400:
  *     description: Bad Request - Invalid Body
  *    404:
- *     description: Not Found
+ *     description: Not Found Product
  *     content:
  *      application/json:
  *       schema:
- *        type: object
- *        properties:
- *         error:
- *          type: string
- *          description: Error Message
- *          example: Producto no encontrado
+ *        $ref: '#/components/schemas/NotFound'
  */
 router.put(
 	'/:id',
@@ -223,6 +221,38 @@ router.put(
 	updateProduct
 );
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  patch:
+ *   summary: Update Product Availability
+ *   tags:
+ *    - Products
+ *   description: Returns the product with updated availability
+ *   parameters:
+ *    - in: path
+ *      name: id
+ *      description: The ID of the product
+ *      required: true
+ *      schema:
+ *       type: integer
+ *   responses:
+ *    200:
+ *     description: Updated Availability
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/ResponseProduct'
+ *    400:
+ *     description: Bad Request - Invalid ID
+ *    404:
+ *     description: Not Found Product
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/NotFound'
+ *
+ */
 router.patch(
 	'/:id',
 	param('id')
