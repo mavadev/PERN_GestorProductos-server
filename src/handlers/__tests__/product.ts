@@ -102,7 +102,7 @@ describe('GET BY ID /api/products', () => {
 	});
 });
 
-describe('PUT /api/products', () => {
+describe('PUT /api/products/:id', () => {
 	// Preparar
 	const updatedData = {
 		name: 'Producto Actualizado - Testing',
@@ -148,5 +148,46 @@ describe('PUT /api/products', () => {
 		expect(response.status).not.toEqual(404);
 		expect(response.body).not.toHaveProperty('error');
 		expect(response.body.data).not.toBeNull();
+	});
+});
+
+describe('DELETE BY ID /api/products/:id', () => {
+	it('debe validar que se envíe un id válido', async () => {
+		// Actuar
+		const response = await request(server).delete('/api/products/not-valid-url');
+
+		// Afirmar
+		expect(response.status).toEqual(400);
+		expect(response.body).toHaveProperty('errors');
+		expect(response.body.errors).toBeTruthy();
+
+		expect(response.status).not.toEqual(200);
+		expect(response.body).not.toHaveProperty('data');
+	});
+
+	it('debe validar que exista el producto a eliminar', async () => {
+		// Actuar
+		const response = await request(server).delete('/api/products/5');
+
+		// Afirmar
+		expect(response.status).toEqual(404);
+		expect(response.body).toHaveProperty('error');
+		expect(response.body.error).toBeTruthy();
+
+		expect(response.status).not.toEqual(200);
+		expect(response.body).not.toHaveProperty('data');
+	});
+
+	it('debe eliminar el producto con el id enviado', async () => {
+		// Actuar
+		const response = await request(server).delete('/api/products/1');
+
+		// Afirmar
+		expect(response.status).toEqual(200);
+		expect(response.body).toHaveProperty('data');
+		expect(response.body.data).toBeTruthy();
+
+		expect(response.status).not.toEqual(404);
+		expect(response.body).not.toHaveProperty('error');
 	});
 });
