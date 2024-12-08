@@ -87,6 +87,8 @@ router.get('/', getProducts);
  *      application/json:
  *       schema:
  *        $ref: '#/components/schemas/ResponseProduct'
+ *    400:
+ *     description: Bad Request - Invalid ID
  *    404:
  *     description: Not Found
  *     content:
@@ -98,8 +100,6 @@ router.get('/', getProducts);
  *          type: string
  *          description: Error Message
  *          example: Producto no encontrado
- *    400:
- *     description: Bad Request - Invalid ID
  */
 router.get(
 	'/:id',
@@ -154,6 +154,58 @@ router.post(
 	createProduct
 );
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  put:
+ *   summary: Update a product
+ *   tags:
+ *   - Products
+ *   description: Return the updated product
+ *   parameters:
+ *    - in: path
+ *      name: id
+ *      required: true
+ *      description: The ID of the product
+ *      schema:
+ *       type: integer
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        name:
+ *         type: string
+ *         example: Updated Name
+ *        price:
+ *         type: number
+ *         example: 1200
+ *        availability:
+ *         type: boolean
+ *         example: false
+ *   responses:
+ *    200:
+ *     description: Updated
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/ResponseProduct'
+ *    400:
+ *     description: Bad Request - Invalid Body
+ *    404:
+ *     description: Not Found
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         error:
+ *          type: string
+ *          description: Error Message
+ *          example: Producto no encontrado
+ */
 router.put(
 	'/:id',
 	param('id')
