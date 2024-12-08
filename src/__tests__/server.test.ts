@@ -1,20 +1,5 @@
-import request from 'supertest';
-import server, { connectDatabase } from '../server';
+import { connectDatabase } from '../server';
 import database from '../config/database';
-
-describe('GET /api', () => {
-	test('debe responder con un JSON', async () => {
-		const res = await request(server).get('/api');
-
-		// Debe cumplirse
-		expect(res.status).toBe(200);
-		expect(res.type).toMatch('json');
-
-		// No debe cumplirse
-		expect(res.status).not.toBe(404);
-		expect(res.body.msg).not.toBeNull();
-	});
-});
 
 jest.mock('../config/database');
 

@@ -1,18 +1,9 @@
-import express from 'express';
-import router from './router';
 import colors from 'colors';
+import express from 'express';
 import database from './config/database';
-
-const server = express();
-
-// Leer datos de formulario
-server.use(express.json());
-
-// Routing
-server.use('/api/products', router);
-server.use('/api', (req, res) => {
-	res.json({ msg: 'Desde API' });
-});
+import router from './router';
+import swaggerUI from 'swagger-ui-express';
+import swaggerSpec from './config/swagger';
 
 // Conexión a la base de datos
 export async function connectDatabase() {
@@ -24,5 +15,17 @@ export async function connectDatabase() {
 		console.log('Hubo un error al conectarse a la DB');
 	}
 }
+connectDatabase();
+
+const server = express();
+
+// Leer datos de formulario
+server.use(express.json());
+
+// Routing
+server.use('/api/products', router);
+
+// Documentation
+server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 export default server;
