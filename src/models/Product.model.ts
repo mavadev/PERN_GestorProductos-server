@@ -1,5 +1,12 @@
-import { Table, Column, Model, DataType, Default } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, Default, Scopes } from 'sequelize-typescript';
 
+@Scopes(() => ({
+	defaultScope: {
+		attributes: {
+			exclude: ['createdAt', 'updatedAt'],
+		},
+	},
+}))
 @Table({
 	tableName: 'products',
 })

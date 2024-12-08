@@ -16,9 +16,6 @@ export const getProductById = async (req: Request, res: Response) => {
 export const getProducts = async (req: Request, res: Response) => {
 	const products = await Product.findAll({
 		order: [['id', 'ASC']],
-		attributes: {
-			exclude: ['createdAt', 'updatedAt'],
-		},
 	});
 	res.json({ data: products });
 };

@@ -30,11 +30,16 @@ const router = Router();
  *     price:
  *      type: number
  *      description: The Product Price
- *      example: 350
+ *      example: 750
  *     availability:
  *      type: boolean
  *      description: The Product Availability
- *      example: true/false
+ *      example: true
+ *   ResponseProduct:
+ *    type: object
+ *    properties:
+ *     data:
+ *      $ref: '#/components/schemas/Product'
  */
 
 /**
@@ -81,10 +86,7 @@ router.get('/', getProducts);
  *     content:
  *      application/json:
  *       schema:
- *        type: object
- *        properties:
- *         data:
- *          $ref: '#/components/schemas/Product'
+ *        $ref: '#/components/schemas/ResponseProduct'
  *    404:
  *     description: Not Found
  *     content:
@@ -109,6 +111,37 @@ router.get(
 	getProductById
 );
 
+/**
+ * @swagger
+ * /api/products:
+ *  post:
+ *   summary: Create a new product
+ *   tags:
+ *   - Products
+ *   description: Returns a new product in the database
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        name:
+ *         type: string
+ *         example: Impresora EPSON L4260
+ *        price:
+ *         type: number
+ *         example: 1000
+ *   responses:
+ *    201:
+ *     description: Created
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/ResponseProduct'
+ *    400:
+ *     description: Bad Request - Invalid Body
+ */
 router.post(
 	'/',
 	body('name').notEmpty().withMessage('Debes ingresar el nombre del producto'),
