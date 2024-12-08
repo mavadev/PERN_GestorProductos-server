@@ -12,6 +12,33 @@ import {
 } from './handlers/product';
 
 const router = Router();
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *   Product:
+ *    type: object
+ *    properties:
+ *     id:
+ *      type: integer
+ *      description: The Product ID
+ *      example: 1
+ *     name:
+ *      type: string
+ *      description: The Product Name
+ *      example: Monitor Gamer
+ *     price:
+ *      type: number
+ *      description: The Product Price
+ *      example: 350
+ *     availability:
+ *      type: boolean
+ *      description: The Product Availability
+ *      example: true/false
+ *
+ *
+ *
+ */
 
 // Obtener producto por ID
 router.get(
