@@ -263,6 +263,41 @@ router.patch(
 	updateAvailability
 );
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  delete:
+ *   summary: Delete product by ID
+ *   tags:
+ *    - Products
+ *   description: Return the message with ID
+ *   parameters:
+ *    - in: path
+ *      name: id
+ *      description: The ID of the product
+ *      required: true
+ *      schema:
+ *       type: integer
+ *   responses:
+ *    200:
+ *     description: Product Removed
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         data:
+ *          type: string
+ *          example: Producto eliminado
+ *    400:
+ *     description: Bad Request - Invalid ID
+ *    404:
+ *     description: Not Found Product
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/NotFound'
+ */
 router.delete(
 	'/:id',
 	param('id')
