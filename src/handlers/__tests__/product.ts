@@ -191,3 +191,15 @@ describe('DELETE BY ID /api/products/:id', () => {
 		expect(response.body).not.toHaveProperty('error');
 	});
 });
+
+describe('DELETE /api/products/', () => {
+	it('debe eliminar todos los productos', async () => {
+		// Actuar
+		const response = await request(server).delete('/api/products/');
+
+		// Afirmar
+		expect(response.status).toEqual(200);
+		expect(response.body).toHaveProperty('data');
+		expect(response.body.data).toBeTruthy();
+	});
+});

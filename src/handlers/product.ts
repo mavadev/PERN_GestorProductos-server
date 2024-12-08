@@ -100,11 +100,13 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
 export const deleteProducts = async (req: Request, res: Response) => {
 	try {
+		const count = await Product.count();
 		await Product.destroy({
 			truncate: true,
 			restartIdentity: true,
 		});
-		res.json({ data: `Productos eliminados` });
+
+		res.json({ data: `Productos eliminados (${count})` });
 	} catch (error) {
 		console.error(error);
 	}
