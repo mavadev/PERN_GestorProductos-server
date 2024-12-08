@@ -51,12 +51,54 @@ const router = Router();
  *     content:
  *      application/json:
  *       schema:
- *        type: array
- *        items:
- *         $ref: '#/components/schemas/Product'
+ *        type: object
+ *        properties:
+ *         data:
+ *          type: array
+ *          items:
+ *           $ref: '#/components/schemas/Product'
  */
 router.get('/', getProducts);
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  get:
+ *   summary: Get a product by ID
+ *   tags:
+ *    - Products
+ *   description: Return a product based on its unique ID
+ *   parameters:
+ *    - in: path
+ *      name: id
+ *      description: The ID of the product to retrieve
+ *      required: true
+ *      schema:
+ *       type: integer
+ *   responses:
+ *    200:
+ *     description: Successful response
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         data:
+ *          $ref: '#/components/schemas/Product'
+ *    404:
+ *     description: Not Found
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         error:
+ *          type: string
+ *          description: Error Message
+ *          example: Producto no encontrado
+ *    400:
+ *     description: Bad Request - Invalid ID
+ */
 router.get(
 	'/:id',
 	param('id')
