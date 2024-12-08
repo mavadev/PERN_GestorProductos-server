@@ -35,12 +35,28 @@ const router = Router();
  *      type: boolean
  *      description: The Product Availability
  *      example: true/false
- *
- *
- *
  */
 
-// Obtener producto por ID
+/**
+ * @swagger
+ * /api/products:
+ *  get:
+ *   summary: Get a list of products
+ *   tags:
+ *    - Products
+ *   description: Return a list of products
+ *   responses:
+ *    200:
+ *     description: Successful response
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: array
+ *        items:
+ *         $ref: '#/components/schemas/Product'
+ */
+router.get('/', getProducts);
+
 router.get(
 	'/:id',
 	param('id')
@@ -51,10 +67,6 @@ router.get(
 	getProductById
 );
 
-// Obtener todos los productos
-router.get('/', getProducts);
-
-// Crear Producto
 router.post(
 	'/',
 	body('name').notEmpty().withMessage('Debes ingresar el nombre del producto'),
@@ -67,7 +79,6 @@ router.post(
 	createProduct
 );
 
-// Actualizar Producto
 router.put(
 	'/:id',
 	param('id')
@@ -85,7 +96,6 @@ router.put(
 	updateProduct
 );
 
-// Modificar Producto (Parcialmente)
 router.patch(
 	'/:id',
 	param('id')
@@ -96,7 +106,6 @@ router.patch(
 	updateAvailability
 );
 
-// Eliminar Producto
 router.delete(
 	'/:id',
 	param('id')
@@ -107,7 +116,6 @@ router.delete(
 	deleteProduct
 );
 
-// Eliminar Productos
 router.delete('/', deleteProducts);
 
 export default router;
