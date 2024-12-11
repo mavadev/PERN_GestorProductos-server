@@ -1,0 +1,53 @@
+/* Wrapper */
+.swagger-ui .wrapper {
+	max-width: 1280px;
+}
+
+/* Header */
+.swagger-ui .topbar {
+	background-color: #141414;
+}
+.swagger-ui .topbar a {
+	content: url('/favicon.png');
+	flex: none;
+	height: 60px;
+	width: auto;
+}
+
+/* Info */
+.swagger-ui .info {
+	margin: 20px 0px;
+}
+.swagger-ui .info .title {
+	display: flex;
+	flex-direction: column-reverse;
+}
+.swagger-ui .info .title small {
+	top: 0;
+	vertical-align: super;
+}
+.swagger-ui .info .description .renderedMarkdown p {
+	line-height: 1.5;
+}
+
+/* Paths */
+.swagger-ui .opblock-tag {
+	margin: 0 0 15px;
+}
+.col.col_header.response-col_links,
+.response-col_links {
+	display: none;
+}
+
+@media screen and (max-width: 768px) {
+	.opblock-summary-description {
+		word-wrap: break-word;
+	}
+	.opblock-summary-path {
+		word-wrap: break-word;
+	}
+
+	.opblock-tag .renderedMarkdown {
+		display: none;
+	}
+}

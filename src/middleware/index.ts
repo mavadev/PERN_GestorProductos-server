@@ -11,3 +11,20 @@ export const validateErrors = (req: Request, res: Response, next: NextFunction) 
 
 	next();
 };
+
+export const addMetaResponsive = (req: Request, res: Response, next: NextFunction): void => {
+	res.setHeader('Content-Type', 'text/html');
+	const originalSend = res.send.bind(res);
+
+	res.send = (body: any): Response => {
+		if (typeof body === 'string') {
+			body = body.replace(
+				'</head>',
+				'<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></head>'
+			);
+		}
+		return originalSend(body);
+	};
+
+	next();
+};

@@ -1,9 +1,13 @@
+import path from 'path';
+import yamljs from 'yamljs';
 import colors from 'colors';
 import express from 'express';
-import database from './config/database';
-import router from './router';
 import swaggerUI from 'swagger-ui-express';
-import swaggerSpec from './config/swagger';
+
+import router from './router';
+import database from './config/database';
+import { addMetaResponsive } from './middleware';
+import { swaggerUiOptions } from './config/swagger/swagger';
 
 // Conexión a la base de datos
 export async function connectDatabase() {
@@ -15,17 +19,21 @@ export async function connectDatabase() {
 		console.log('Hubo un error al conectarse a la DB');
 	}
 }
-connectDatabase();
 
 const server = express();
 
 // Leer datos de formulario
 server.use(express.json());
 
+// Archivos estáticos
+server.use(express.static('public'));
+server.use('/swagger.css', express.static(path.join(__dirname, 'config/swagger/swagger.css')));
+
 // Routing
 server.use('/api/products', router);
 
-// Documentation
-server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+// Documentación
+const swaggerDocument = yamljs.load(path.join(__dirname, 'config/swagger/swagger.yaml'));
+server.use('/docs', addMetaResponsive, swaggerUI.serve, swaggerUI.setup(swaggerDocument, swaggerUiOptions));
 
 export default server;

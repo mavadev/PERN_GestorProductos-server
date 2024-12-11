@@ -5,6 +5,12 @@ beforeAll(async () => {
 	await request(server).delete('/api/products');
 });
 
+// Preparar (Arrange)
+const newProduct = {
+	name: 'Producto - Testing',
+	price: 1200,
+};
+
 describe('POST /api/products', () => {
 	it('debe mostrar errores si no se envía el producto', async () => {
 		// Actuar
@@ -20,12 +26,6 @@ describe('POST /api/products', () => {
 	});
 
 	it('debe crear un nuevo producto', async () => {
-		// Preparar (Arrange)
-		const newProduct = {
-			name: 'Producto - Testing',
-			price: 333.3,
-		};
-
 		// Actuar (Act)
 		const response = await request(server).post('/api/products').send(newProduct);
 
@@ -239,11 +239,13 @@ describe('DELETE BY ID /api/products/:id', () => {
 describe('DELETE /api/products/', () => {
 	it('debe eliminar todos los productos', async () => {
 		// Actuar
+		await request(server).post('/api/products').send(newProduct);
+		await request(server).post('/api/products').send(newProduct);
 		const response = await request(server).delete('/api/products/');
 
 		// Afirmar
 		expect(response.status).toEqual(200);
 		expect(response.body).toHaveProperty('data');
-		expect(response.body.data).toBeTruthy();
+		expect(response.body.data).toEqual(expect.any(Number));
 	});
 });

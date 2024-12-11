@@ -68,7 +68,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
 	await product.destroy();
 	await product.save();
 
-	res.json({ data: `Producto eliminado (ID: ${id})` });
+	res.json({ data: id });
 };
 
 export const deleteProducts = async (req: Request, res: Response) => {
@@ -78,5 +78,5 @@ export const deleteProducts = async (req: Request, res: Response) => {
 		restartIdentity: true,
 	});
 
-	res.json({ data: `Productos eliminados (${count})` });
+	res.json({ data: count });
 };

@@ -1,0 +1,234 @@
+openapi: 3.0.2
+info:
+  title: REST API de Productos
+  description: >
+    La REST API de Productos ofrece una serie de endpoints para gestionar productos de manera eficiente, incluyendo la creación, consulta, actualización y eliminación de productos, así como la modificación de su disponibilidad. 
+  version: 1.0.0
+tags:
+- name: Productos
+  description: Endpoints dedicados a la gestión de productos en el sistema
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The Product ID
+          example: 1
+        name:
+          type: string
+          description: The Product Name
+          example: Monitor Gamer
+        price:
+          type: number
+          description: The Product Price
+          example: 750
+        availability:
+          type: boolean
+          description: The Product Availability
+          example: true
+    ResponseProduct:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Product'
+    NotFound:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error Message
+          example: Producto no encontrado
+paths:
+  /api/products:
+    get:
+      tags:
+      - Productos
+      summary: Obtener la lista de productos
+      description: Devuelve una lista de productos
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+    post:
+      tags:
+      - Productos
+      summary: Crear un nuevo producto
+      description: Devuelve el nuevo producto creado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Impresora EPSON L4260
+                price:
+                  type: number
+                  example: 1000
+      responses:
+        201:
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProduct'
+        400:
+          description: Solicitud incorrecta - body inválido
+    delete:
+      tags:
+      - Productos
+      summary: Eliminar todos los productos
+      description: Devuelve un mensaje con la cantidad de productos eliminados
+      responses:
+        200:
+          description: Cantidad de Productos eliminados
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: integer
+                    example: 12
+  /api/products/{id}:
+    get:
+      tags:
+      - Productos
+      summary: Obtener un producto por ID
+      operationId: getUser
+      description: Devuelve un producto específico según su ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: ID del producto
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Detalles del producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProduct'
+        400:
+          description: Solicitud incorrecta - ID inválido
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+    put:
+      tags:
+      - Productos
+      summary: Actualizar un producto
+      description: Devuelve el producto actualizado
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: ID del producto
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Producto - Actualizado
+                price:
+                  type: number
+                  example: 1200
+                availability:
+                  type: boolean
+                  example: false
+      responses:
+        200:
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProduct'
+        400:
+          description: Solicitud Incorrecta - ID inválido
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+    patch:
+      tags:
+      - Productos
+      summary: Modificar la disponibilidad de un producto
+      description: Devuelve el producto modificado
+      parameters:
+      - in: path
+        name: id
+        description: ID del producto
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Producto modificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProduct'
+        400:
+          description: Solicitud incorrecta - ID inválido
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+    delete:
+      tags:
+      - Productos
+      summary: Eliminar un producto por ID
+      description: Devuelve un mensaje con el ID del producto eliminado
+      parameters:
+      - in: path
+        name: id
+        description: ID del producto
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: ID del Producto eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: integer
+                    example: 4
+        400:
+          description: Solicitud incorrecta - ID inválido
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
