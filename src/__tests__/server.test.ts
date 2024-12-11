@@ -1,5 +1,6 @@
-import { connectDatabase } from '../server';
+import request from 'supertest';
 import database from '../config/database';
+import server, { connectDatabase } from '../server';
 
 jest.mock('../config/database');
 
@@ -40,5 +41,18 @@ describe('connection to the database', () => {
 		// Limpiar mocks
 		mockAuth.mockRestore();
 		consoleSpy.mockRestore();
+	});
+});
+
+describe('responsive meta tag in docs', () => {
+	it('debe agregar el meta tag de responsividad a la página /docs', async () => {
+		// Actuar
+		const response = await request(server).get('/docs/');
+
+		// Afirmar
+		expect(response.status).toBe(200);
+		expect(response.text).toContain(
+			'<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></head>'
+		);
 	});
 });
