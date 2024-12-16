@@ -1,10 +1,10 @@
+import cors, { CorsOptions } from 'cors';
 import path from 'path';
 import yamljs from 'yamljs';
 import colors from 'colors';
 import express from 'express';
-import swaggerUI from 'swagger-ui-express';
-
 import router from './router';
+import swaggerUI from 'swagger-ui-express';
 import database from './config/database';
 import { addMetaResponsive } from './middleware';
 import { swaggerUiOptions } from './config/swagger/swagger';
@@ -21,6 +21,18 @@ export async function connectDatabase() {
 }
 
 const server = express();
+
+// Permiso a conexiones - CORS
+const corsOptions: CorsOptions = {
+	origin: (origin, callback) => {
+		if (origin === process.env.FRONTEND_URL || !origin) {
+			callback(null, true);
+		} else {
+			callback(new Error('Error de CORS'));
+		}
+	},
+};
+server.use(cors(corsOptions));
 
 // Leer datos de formulario
 server.use(express.json());
