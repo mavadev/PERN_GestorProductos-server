@@ -1,5 +1,6 @@
 import cors, { CorsOptions } from 'cors';
 import path from 'path';
+import morgan from 'morgan';
 import yamljs from 'yamljs';
 import colors from 'colors';
 import express from 'express';
@@ -36,6 +37,9 @@ server.use(cors(corsOptions));
 
 // Leer datos de formulario
 server.use(express.json());
+
+// Añadir morgan para visualizar solicitudes
+server.use(morgan('dev'));
 
 // Archivos estáticos
 server.use(express.static('public'));
