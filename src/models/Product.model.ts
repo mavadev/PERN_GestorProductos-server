@@ -1,16 +1,18 @@
-import { Table, Column, Model, DataType, Default, Scopes } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, Default, Index } from 'sequelize-typescript';
 
-@Scopes(() => ({
-	defaultScope: {
-		attributes: {
-			exclude: ['createdAt', 'updatedAt'],
-		},
-	},
-}))
 @Table({
 	tableName: 'products',
+	timestamps: false,
 })
 class Product extends Model {
+	@Index
+	@Column({
+		primaryKey: true,
+		autoIncrement: true,
+		type: DataType.INTEGER,
+	})
+	declare id: number;
+
 	@Column({
 		type: DataType.STRING(100),
 	})

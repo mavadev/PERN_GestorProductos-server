@@ -27,12 +27,8 @@ router.get(
 
 router.post(
 	'/',
-	body('name').notEmpty().withMessage('Debes ingresar el nombre del producto'),
-	body('price')
-		.notEmpty()
-		.isNumeric()
-		.custom(value => value > 0)
-		.withMessage('Debes ingresar un precio válido'),
+	body('name').trim().notEmpty().withMessage('Debes ingresar el nombre del producto'),
+	body('price').isFloat({ gt: 0 }).withMessage('Debes ingresar un precio válido'),
 	validateErrors,
 	createProduct
 );
